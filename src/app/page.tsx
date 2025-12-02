@@ -53,9 +53,12 @@ function BiodiversityIcon() {
 }
 
 // Componente ProblemCard
-function ProblemCard({ icon, title }: { icon: React.ReactNode; title: string }) {
+function ProblemCard({ icon, title, onClick }: { icon: React.ReactNode; title: string; onClick?: () => void }) {
   return (
-    <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group">
+    <div 
+      onClick={onClick}
+      className="bg-white rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group"
+    >
       <div className="flex flex-col items-center text-center gap-4">
         <div className="text-[#3a5a52] transform group-hover:scale-110 transition-transform duration-300">
           {icon}
@@ -158,6 +161,8 @@ function SolutionCard({
 // Componente principal Home
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [showAquecimentoModal, setShowAquecimentoModal] = useState(false);
+  const [showPoluicaoModal, setShowPoluicaoModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -175,6 +180,402 @@ export default function Home() {
 
   return (
     <div className="relative">
+      {/* Modal Aquecimento Global */}
+      {showAquecimentoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
+          onClick={() => setShowAquecimentoModal(false)}
+        >
+          <div 
+            className="bg-[#e8e8e8] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleIn relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowAquecimentoModal(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="p-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] mb-4">AQUECIMENTO GLOBAL</h2>
+              <p className="text-lg text-gray-600 mb-12">A temperatura não para de subir</p>
+
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
+                {/* Gráfico */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-4">
+                    Aumento da Temperatura Média Global:<br/>
+                    +1.2°C desde a era pré-industrial
+                  </h3>
+                  <div className="relative h-48">
+                    <svg width="100%" height="100%" viewBox="0 0 200 150" className="overflow-visible">
+                      {/* Eixos */}
+                      <line x1="20" y1="130" x2="180" y2="130" stroke="#ccc" strokeWidth="2"/>
+                      <line x1="20" y1="20" x2="20" y2="130" stroke="#ccc" strokeWidth="2"/>
+                      
+                      {/* Linha do gráfico */}
+                      <polyline
+                        points="20,120 40,115 60,110 80,100 100,95 120,85 140,75 160,60 180,40"
+                        fill="none"
+                        stroke="#e85d75"
+                        strokeWidth="3"
+                      />
+                      
+                      {/* Seta */}
+                      <path d="M170,45 L180,40 L175,50 Z" fill="#e85d75"/>
+                      
+                      {/* Labels */}
+                      <text x="10" y="135" fontSize="10" fill="#666">0</text>
+                      <text x="90" y="145" fontSize="10" fill="#666">10</text>
+                      <text x="170" y="145" fontSize="10" fill="#666">20</text>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Recordes de Calor */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
+                  <div className="text-[#3a5a52] mb-4">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+                      <circle cx="40" cy="25" r="8" stroke="currentColor" strokeWidth="3"/>
+                      <rect x="36" y="30" width="8" height="30" fill="currentColor"/>
+                      <circle cx="40" cy="60" r="12" fill="currentColor"/>
+                      <path d="M40 35 L40 55" stroke="white" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  <h4 className="font-bold text-base text-[#2d2d2d] mb-2">Recordes de Calor:</h4>
+                  <p className="text-sm text-gray-700">Ondas de calor mais frequentes e intensas</p>
+                </div>
+
+                {/* Derretimento de Gelo */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
+                  <div className="text-[#3a5a52] mb-4">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+                      <path d="M20,50 Q30,40 40,45 T60,50 L65,60 Q55,65 40,60 T15,60 Z" fill="currentColor" opacity="0.3"/>
+                      <path d="M25,35 L30,25 L35,35 L40,30 L45,35 L50,28 L55,35" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      <circle cx="30" cy="28" r="2" fill="currentColor"/>
+                      <circle cx="50" cy="31" r="2" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <h4 className="font-bold text-base text-[#2d2d2d] mb-2">Derretimento de Gelo:</h4>
+                  <p className="text-sm text-gray-700">Polos e geleiras derretem rapidamente</p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-[#2d2d2d] mb-6">Causas Principais</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.07-.24C8.07 17.77 11.06 13.7 17 12zm-3-4l-2-4v4h-2c0 1.66 1.34 3 3 3s3-1.34 3-3h-2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Emissão de Gases de Efeito Estufa</h4>
+                      <p className="text-sm text-gray-700">CO₂ e metano provenientes da queima de combustíveis fósseis</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Desmatamento</h4>
+                      <p className="text-sm text-gray-700">Redução de áreas florestais que absorvem CO₂</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Indústria e Agricultura</h4>
+                      <p className="text-sm text-gray-700">Processos industriais e pecuária intensiva emitem grandes quantidades de gases</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Poluição Plástica */}
+      {showPoluicaoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
+          onClick={() => setShowPoluicaoModal(false)}
+        >
+          <div 
+            className="bg-[#e8e8e8] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleIn relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowPoluicaoModal(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="p-12">
+              <div className="grid md:grid-cols-2 gap-12 mb-12">
+                {/* Left Column */}
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] mb-4">POLUIÇÃO PLÁSTICA</h2>
+                  <p className="text-lg text-gray-600 mb-8">O mar de lixo que sufoca o planeta</p>
+
+                  <button className="bg-[#3a5a52] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#2d4540] transition-colors mb-8">
+                    JEITINHO
+                  </button>
+
+                  {/* Volume Crítico */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                    <div className="flex items-start gap-4">
+                      <svg className="w-12 h-12 text-[#3a5a52] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2">VOLUME CRÍTICO</h3>
+                        <p className="text-sm text-gray-700">1.1 milhões de toneladas por nos oceanos</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Microplásticos */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg">
+                    <div className="flex items-start gap-4">
+                      <svg className="w-12 h-12 text-[#3a5a52] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                      <div>
+                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2">MICROPLÁSTICOS:</h3>
+                        <p className="text-sm text-gray-700">Invisíveis, mas presente na cadeia alimentar</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[500px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800"
+                    alt="Tartaruga marinha nadando entre plásticos"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Tempo de Decomposição */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-[#2d2d2d] mb-8 text-center">Tempo de Decomposição Estimado</h3>
+                
+                <div className="grid grid-cols-5 gap-4 mb-6">
+                  {/* Ícones */}
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Barra de progressão */}
+                <div className="relative h-2 bg-gray-200 rounded-full mb-4">
+                  <div className="absolute h-full bg-gradient-to-r from-[#3a5a52] to-[#7dd3c0] rounded-full" style={{width: '100%'}}></div>
+                </div>
+
+                {/* Labels */}
+                <div className="grid grid-cols-5 gap-4 text-center">
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Sacola Plástica:</p>
+                    <p className="text-xs text-gray-600">Até 500 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Copo Plástico:</p>
+                    <p className="text-xs text-gray-600">Até 450 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Garrafa PET</p>
+                    <p className="text-xs text-gray-600">Até 400 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Embalagem:</p>
+                    <p className="text-xs text-gray-600">Até 100 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Caneta:</p>
+                    <p className="text-xs text-gray-600">Até 100 anos</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation */}
+      {showAquecimentoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
+          onClick={() => setShowAquecimentoModal(false)}
+        >
+          <div 
+            className="bg-[#e8e8e8] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleIn relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowAquecimentoModal(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="p-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] mb-4">AQUECIMENTO GLOBAL</h2>
+              <p className="text-lg text-gray-600 mb-12">A temperatura não para de subir</p>
+
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
+                {/* Gráfico */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-4">
+                    Aumento da Temperatura Média Global:<br/>
+                    +1.2°C desde a era pré-industrial
+                  </h3>
+                  <div className="relative h-48">
+                    <svg width="100%" height="100%" viewBox="0 0 200 150" className="overflow-visible">
+                      {/* Eixos */}
+                      <line x1="20" y1="130" x2="180" y2="130" stroke="#ccc" strokeWidth="2"/>
+                      <line x1="20" y1="20" x2="20" y2="130" stroke="#ccc" strokeWidth="2"/>
+                      
+                      {/* Linha do gráfico */}
+                      <polyline
+                        points="20,120 40,115 60,110 80,100 100,95 120,85 140,75 160,60 180,40"
+                        fill="none"
+                        stroke="#e85d75"
+                        strokeWidth="3"
+                      />
+                      
+                      {/* Seta */}
+                      <path d="M170,45 L180,40 L175,50 Z" fill="#e85d75"/>
+                      
+                      {/* Labels */}
+                      <text x="10" y="135" fontSize="10" fill="#666">0</text>
+                      <text x="90" y="145" fontSize="10" fill="#666">10</text>
+                      <text x="170" y="145" fontSize="10" fill="#666">20</text>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Recordes de Calor */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
+                  <div className="text-[#3a5a52] mb-4">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+                      <circle cx="40" cy="25" r="8" stroke="currentColor" strokeWidth="3"/>
+                      <rect x="36" y="30" width="8" height="30" fill="currentColor"/>
+                      <circle cx="40" cy="60" r="12" fill="currentColor"/>
+                      <path d="M40 35 L40 55" stroke="white" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  <h4 className="font-bold text-base text-[#2d2d2d] mb-2">Recordes de Calor:</h4>
+                  <p className="text-sm text-gray-700">Ondas de calor mais frequentes e intensas</p>
+                </div>
+
+                {/* Derretimento de Gelo */}
+                <div className="bg-white rounded-2xl p-6 shadow-lg text-center">
+                  <div className="text-[#3a5a52] mb-4">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+                      <path d="M20,50 Q30,40 40,45 T60,50 L65,60 Q55,65 40,60 T15,60 Z" fill="currentColor" opacity="0.3"/>
+                      <path d="M25,35 L30,25 L35,35 L40,30 L45,35 L50,28 L55,35" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      <circle cx="30" cy="28" r="2" fill="currentColor"/>
+                      <circle cx="50" cy="31" r="2" fill="currentColor"/>
+                    </svg>
+                  </div>
+                  <h4 className="font-bold text-base text-[#2d2d2d] mb-2">Derretimento de Gelo:</h4>
+                  <p className="text-sm text-gray-700">Polos e geleiras derretem rapidamente</p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-[#2d2d2d] mb-6">Causas Principais</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.07-.24C8.07 17.77 11.06 13.7 17 12zm-3-4l-2-4v4h-2c0 1.66 1.34 3 3 3s3-1.34 3-3h-2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Emissão de Gases de Efeito Estufa</h4>
+                      <p className="text-sm text-gray-700">CO₂ e metano provenientes da queima de combustíveis fósseis</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Desmatamento</h4>
+                      <p className="text-sm text-gray-700">Redução de áreas florestais que absorvem CO₂</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-[#3a5a52]/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-[#2d2d2d] mb-1">Indústria e Agricultura</h4>
+                      <p className="text-sm text-gray-700">Processos industriais e pecuária intensiva emitem grandes quantidades de gases</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -224,7 +625,7 @@ export default function Home() {
           </p>
 
           <a
-            href="#recursos"
+            href="#o-problema"
             onClick={(e) => scrollToSection(e, '#o-problema')}
             className="inline-block bg-[#7dd3c0] text-[#1a3a2e] px-10 py-4 text-lg md:text-xl font-semibold rounded-full transition-all duration-300 hover:bg-[#68c4ae] hover:-translate-y-1 hover:shadow-2xl shadow-[0_10px_30px_rgba(125,211,192,0.3)] animate-pulse hover:animate-none"
           >
@@ -246,10 +647,12 @@ export default function Home() {
                 <ProblemCard
                   icon={<GlobeIcon />}
                   title="AQUECIMENTO GLOBAL"
+                  onClick={() => setShowAquecimentoModal(true)}
                 />
                 <ProblemCard
                   icon={<PlasticIcon />}
                   title="POLUIÇÃO PLÁSTICA"
+                  onClick={() => setShowPoluicaoModal(true)}
                 />
                 <ProblemCard
                   icon={<DeforestationIcon />}
@@ -437,8 +840,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Placeholder sections */}
-      <section id="sobre" className="min-h-screen bg-white pb-20 px-6 pt-50">
+      {/* Sobre Section */}
+      <section id="sobre" className="min-h-screen bg-white py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-start">
             {/* Left Column - Content */}
