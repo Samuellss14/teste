@@ -163,6 +163,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showAquecimentoModal, setShowAquecimentoModal] = useState(false);
   const [showPoluicaoModal, setShowPoluicaoModal] = useState(false);
+  const [showDesmatamentoModal, setShowDesmatamentoModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -311,6 +312,222 @@ export default function Home() {
       )}
 
       {/* Modal Poluição Plástica */}
+      {showPoluicaoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
+          onClick={() => setShowPoluicaoModal(false)}
+        >
+          <div 
+            className="bg-[#e8e8e8] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleIn relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowPoluicaoModal(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="p-12">
+              <div className="grid md:grid-cols-2 gap-12 mb-12">
+                {/* Left Column */}
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] mb-4">POLUIÇÃO PLÁSTICA</h2>
+                  <p className="text-lg text-gray-600 mb-8">O mar de lixo que sufoca o planeta</p>
+
+                  <button className="bg-[#3a5a52] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#2d4540] transition-colors mb-8">
+                    JEITINHO
+                  </button>
+
+                  {/* Volume Crítico */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                    <div className="flex items-start gap-4">
+                      <svg className="w-12 h-12 text-[#3a5a52] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2">VOLUME CRÍTICO</h3>
+                        <p className="text-sm text-gray-700">1.1 milhões de toneladas por nos oceanos</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Microplásticos */}
+                  <div className="bg-white rounded-2xl p-6 shadow-lg">
+                    <div className="flex items-start gap-4">
+                      <svg className="w-12 h-12 text-[#3a5a52] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                      <div>
+                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2">MICROPLÁSTICOS:</h3>
+                        <p className="text-sm text-gray-700">Invisíveis, mas presente na cadeia alimentar</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[500px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800"
+                    alt="Tartaruga marinha nadando entre plásticos"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Tempo de Decomposição */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <h3 className="text-2xl font-bold text-[#2d2d2d] mb-8 text-center">Tempo de Decomposição Estimado</h3>
+                
+                <div className="grid grid-cols-5 gap-4 mb-6">
+                  {/* Ícones */}
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <svg className="w-12 h-12 text-[#3a5a52] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Barra de progressão */}
+                <div className="relative h-2 bg-gray-200 rounded-full mb-4">
+                  <div className="absolute h-full bg-gradient-to-r from-[#3a5a52] to-[#7dd3c0] rounded-full" style={{width: '100%'}}></div>
+                </div>
+
+                {/* Labels */}
+                <div className="grid grid-cols-5 gap-4 text-center">
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Sacola Plástica:</p>
+                    <p className="text-xs text-gray-600">Até 500 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Copo Plástico:</p>
+                    <p className="text-xs text-gray-600">Até 450 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Garrafa PET</p>
+                    <p className="text-xs text-gray-600">Até 400 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Embalagem:</p>
+                    <p className="text-xs text-gray-600">Até 100 anos</p>
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-[#2d2d2d]">Caneta:</p>
+                    <p className="text-xs text-gray-600">Até 100 anos</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Desmatamento */}
+      {showDesmatamentoModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
+          onClick={() => setShowDesmatamentoModal(false)}
+        >
+          <div 
+            className="bg-[#e8e8e8] rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-scaleIn relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowDesmatamentoModal(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="p-12">
+              <div className="grid md:grid-cols-2 gap-12">
+                {/* Left Column */}
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-[#2d2d2d] mb-4">O AVANÇO IMPLACÁVEL</h2>
+                  <p className="text-lg text-gray-600 mb-12">Área de floresta desmatada na Amazônia Brasileira ~26,000 km²/ano</p>
+
+                  {/* Ícone de machado */}
+                  <div className="flex justify-start mb-12">
+                    <svg className="w-24 h-24 text-[#3a5a52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+
+                  {/* Causas Principais */}
+                  <div className="bg-white rounded-2xl p-8 shadow-lg">
+                    <h3 className="text-2xl font-bold text-[#2d2d2d] mb-6">CAUSAS PRINCIPAIS</h3>
+                    
+                    <div className="space-y-6">
+                      {/* Pecuária */}
+                      <div className="flex items-center gap-4">
+                        <svg className="w-16 h-16 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-7 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H6v-1c0-2 4-3.1 6-3.1s6 1.1 6 3.1v1z"/>
+                        </svg>
+                        <p className="text-base text-gray-700 font-medium">Pecuária</p>
+                      </div>
+
+                      {/* Agricultura */}
+                      <div className="flex items-center gap-4">
+                        <svg className="w-16 h-16 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                        </svg>
+                        <p className="text-base text-gray-700 font-medium">Agricultura</p>
+                      </div>
+
+                      {/* Mineração */}
+                      <div className="flex items-center gap-4">
+                        <svg className="w-16 h-16 text-[#3a5a52]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1 16H9v-2h2v2zm0-4H9V7h2v7z"/>
+                        </svg>
+                        <p className="text-base text-gray-700 font-medium">Mineração</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[600px]">
+                  <img
+                    src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800"
+                    alt="Área desmatada vista de cima"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation */}
       {showPoluicaoModal && (
         <div 
           className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-6 animate-fadeIn"
@@ -657,6 +874,7 @@ export default function Home() {
                 <ProblemCard
                   icon={<DeforestationIcon />}
                   title="DESMATAMENTO"
+                  onClick={() => setShowDesmatamentoModal(true)}
                 />
                 <ProblemCard
                   icon={<BiodiversityIcon />}
